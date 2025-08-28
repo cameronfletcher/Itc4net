@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace Itc4net.Binary
 {
@@ -19,12 +18,6 @@ namespace Itc4net.Binary
             Expecting = expecting;
             Found = found;
             Position = position;
-        }
-
-        protected DecoderException(
-            SerializationInfo info,
-            StreamingContext context) : base(info, context)
-        {
         }
     }
 }

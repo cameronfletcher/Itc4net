@@ -33,7 +33,7 @@ namespace Itc4net.Tests
         public void LeafCtorShouldThrowWhenNegativeN()
         {
             Action act = () => new Event.Leaf(-1);
-            act.ShouldThrow<ArgumentOutOfRangeException>();
+            act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Test]
@@ -48,21 +48,21 @@ namespace Itc4net.Tests
         public void NodeCtorShouldThrowWhenNegativeN()
         {
             Action act = () => new Event.Node(-1, 0, 0);
-            act.ShouldThrow<ArgumentOutOfRangeException>();
+            act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Test]
         public void NodeCtorShouldThrowWhenLeftEventNull()
         {
             Action act = () => new Event.Node(0, null, 0);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
         public void NodeCtorShouldThrowWhenRightEventNull()
         {
             Action act = () => new Event.Node(0, 0, null);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Test]

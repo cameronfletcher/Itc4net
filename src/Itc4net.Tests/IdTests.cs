@@ -47,7 +47,7 @@ namespace Itc4net.Tests
         {
             // ReSharper disable once ObjectCreationAsStatement
             Action act = () => new Id.Leaf(-1);
-            act.ShouldThrow<ArgumentOutOfRangeException>();
+            act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Test]
@@ -55,21 +55,21 @@ namespace Itc4net.Tests
         {
             // ReSharper disable once ObjectCreationAsStatement
             Action act = () => new Id.Leaf(2);
-            act.ShouldThrow<ArgumentOutOfRangeException>();
+            act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Test]
         public void NodeCtorShouldThrowWhenLeftIdNull()
         {
             Action act = () => new Id.Node(null, 0);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
         public void NodeCtorShouldThrowWhenRightIdNull()
         {
             Action act = () => new Id.Node(0, null);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Test]

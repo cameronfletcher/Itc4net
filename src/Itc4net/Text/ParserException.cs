@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace Itc4net.Text
 {
@@ -17,10 +16,6 @@ namespace Itc4net.Text
             Expecting = expecting;
             Found = found;
             Position = position;
-        }
-
-        protected ParserException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Itc4net.Tests.Text
         {
             Action act = () => Stamp.Parse(null);
 
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Itc4net.Tests.Text
         {
             Action act = () => Stamp.Parse(string.Empty);
 
-            act.ShouldThrow<ParserException>().Where(
+            act.Should().Throw<ParserException>().Where(
                 e => e.Position == 1
                 && e.Expecting == TokenKind.LParen
                 && e.Found == TokenKind.EndOfText);
@@ -75,7 +75,7 @@ namespace Itc4net.Tests.Text
             //                              ↓
             Action act = () => Stamp.Parse("1,(1,0,(0,2,0)))");
 
-            act.ShouldThrow<ParserException>().Where(
+            act.Should().Throw<ParserException>().Where(
                 e => e.Position == 1
                 && e.Expecting == TokenKind.LParen
                 && e.Found == TokenKind.IntegerLiteral);
@@ -89,7 +89,7 @@ namespace Itc4net.Tests.Text
             //                                  ↓
             Action act = () => Stamp.Parse("(1,0");
 
-            act.ShouldThrow<ParserException>().Where(
+            act.Should().Throw<ParserException>().Where(
                 e => e.Position == 5
                 && e.Expecting == TokenKind.RParen
                 && e.Found == TokenKind.EndOfText);
@@ -103,7 +103,7 @@ namespace Itc4net.Tests.Text
             //                                ↓
             Action act = () => Stamp.Parse("(1(1,0,(0,2,0)))");
 
-            act.ShouldThrow<ParserException>().Where(
+            act.Should().Throw<ParserException>().Where(
                 e => e.Position == 3
                 && e.Expecting == TokenKind.Comma
                 && e.Found == TokenKind.LParen);
@@ -121,7 +121,7 @@ namespace Itc4net.Tests.Text
             //                                   because of the missing '(', so it expects an RParen to
             //                                   end the stamp
 
-            act.ShouldThrow<ParserException>().Where(
+            act.Should().Throw<ParserException>().Where(
                 e => e.Position == 5
                 && e.Expecting == TokenKind.RParen
                 && e.Found == TokenKind.Comma);
@@ -143,7 +143,7 @@ namespace Itc4net.Tests.Text
             //                              12345678901234567890
             //                                 ↓
             Action act = () => Stamp.Parse("(1,1,0,1))");
-            act.ShouldThrow<ParserException>().Where(
+            act.Should().Throw<ParserException>().Where(
                 e => e.Position == 4
                 && e.Expecting == TokenKind.LParen
                 && e.Found == TokenKind.IntegerLiteral);

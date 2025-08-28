@@ -274,7 +274,7 @@ namespace Itc4net.Tests.Binary
         {
             Action act = () => _decoder.Decode(null);
 
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
@@ -282,7 +282,7 @@ namespace Itc4net.Tests.Binary
         {
             Action act = () => _decoder.Decode(new byte[0]);
 
-            act.ShouldThrow<DecoderException>().Where(
+            act.Should().Throw<DecoderException>().Where(
                 e => e.Position == 0 // 0-based index for decoder
                 && e.Expecting == null
                 && e.Found == BitProcessor.EndOfStream);
@@ -297,7 +297,7 @@ namespace Itc4net.Tests.Binary
             //
             Action act = () => _decoder.Decode(new byte[] { 0x00 });
 
-            act.ShouldThrow<DecoderException>().Where(
+            act.Should().Throw<DecoderException>().Where(
                 e => e.Position == 8
                 && e.Expecting == null
                 && e.Found == BitProcessor.EndOfStream);

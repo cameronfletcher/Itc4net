@@ -52,7 +52,7 @@ namespace Itc4net.Tests
             var converter = new StampConverter();
 
             Action act = () => converter.ConvertTo(stamp, typeof(int));
-            act.ShouldThrow<NotSupportedException>();
+            act.Should().Throw<NotSupportedException>();
         }
 
         [Test]
