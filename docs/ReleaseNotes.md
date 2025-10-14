@@ -1,5 +1,20 @@
 # Itc4net Release Notes
 
+Version 1.4.0
+
+- **Breaking Change**: Removed support for .NET Standard 2.0, .NET Standard 2.1, and .NET 6.0
+- Added support for .NET 9.0
+- Now targets .NET 9.0 and .NET 8.0 only
+- Removed conditional System.ValueTuple package dependency (built into modern .NET)
+
+Version 1.3.0
+
+- Upgraded to modern .NET versions
+- Updated NuGet package dependencies to latest versions
+- Updated FluentAssertions API usage to version 6.x syntax
+- Removed obsolete serialization constructors
+- Added support for .NET 8.0, .NET 6.0, .NET Standard 2.1 alongside existing targets
+
 Version 1.2.1
 
 - Fixes bug in Stamp.CompareTo(Stamp) method. The original implementation returned 0 (zero) if the stamps were equal or concurrent; instead, it should return true if the stamps are equivalent or concurrent. The Stamp.Equals method is a structural comparison of the ID and event components, which is useful, but is not appropriate here.
