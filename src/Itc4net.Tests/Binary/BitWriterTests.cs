@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
-using FluentAssertions;
+﻿using System.IO;
+using Shouldly;
 using Itc4net.Binary;
-using NUnit.Framework;
+using TUnit.Core;
 
 namespace Itc4net.Tests.Binary
 {
-    [TestFixture]
     public class BitWriterTests
     {
         [Test]
@@ -19,8 +17,8 @@ namespace Itc4net.Tests.Binary
                 //                            ^^^^^^^^
             }
 
-            bytes[0].Should().Be(0xFF);
-            bytes[1].Should().Be(0x00);
+            bytes[0].ShouldBe(0xFF);
+            bytes[1].ShouldBe(0x00);
         }
 
         [Test]
@@ -36,8 +34,8 @@ namespace Itc4net.Tests.Binary
                 //                            ^^^^^^^^
             }
 
-            bytes[0].Should().Be(0xFF);
-            bytes[1].Should().Be(0xAA);
+            bytes[0].ShouldBe(0xFF);
+            bytes[1].ShouldBe(0xAA);
         }
 
         [Test]
@@ -53,8 +51,8 @@ namespace Itc4net.Tests.Binary
             // 11111000 = 0xF8
             // ^^^^^    = 1st 5 bits
 
-            bytes[0].Should().Be(0xF8);
-            bytes[1].Should().Be(0x00);
+            bytes[0].ShouldBe(0xF8);
+            bytes[1].ShouldBe(0x00);
         }
 
         [Test]
@@ -74,8 +72,8 @@ namespace Itc4net.Tests.Binary
             // ^^^^^             = 1st 5 bits
             //      ^^^ ^^       = 2nd 5 bits
 
-            bytes[0].Should().Be(0xFA);
-            bytes[1].Should().Be(0x80);
+            bytes[0].ShouldBe(0xFA);
+            bytes[1].ShouldBe(0x80);
         }
 
         [Test]
@@ -88,8 +86,8 @@ namespace Itc4net.Tests.Binary
                 //                                  ^^^
             }
 
-            bytes[0].Should().Be(0xE0);
-            bytes[1].Should().Be(0x00);
+            bytes[0].ShouldBe(0xE0);
+            bytes[1].ShouldBe(0x00);
         }
 
         [Test]
@@ -109,8 +107,8 @@ namespace Itc4net.Tests.Binary
             // ^^^      = 1st 3 bits
             //    ^^^   = 2nd 3 bits
 
-            bytes[0].Should().Be(0xE8);
-            bytes[1].Should().Be(0x00);
+            bytes[0].ShouldBe(0xE8);
+            bytes[1].ShouldBe(0x00);
         }
 
         [Test]
@@ -122,8 +120,8 @@ namespace Itc4net.Tests.Binary
                 writer.WriteBits(0xFF, 0); // 11111111
             }
 
-            bytes[0].Should().Be(0x00);
-            bytes[1].Should().Be(0x00);
+            bytes[0].ShouldBe(0x00);
+            bytes[1].ShouldBe(0x00);
         }
 
         [Test]
@@ -145,8 +143,8 @@ namespace Itc4net.Tests.Binary
             //      ^^^ ^        = 2nd 4 bits
             //           ^^      = 3rd 2 bits
 
-            bytes[0].Should().Be(0x55);
-            bytes[1].Should().Be(0x40);
+            bytes[0].ShouldBe(0x55);
+            bytes[1].ShouldBe(0x40);
         }
     }
 }

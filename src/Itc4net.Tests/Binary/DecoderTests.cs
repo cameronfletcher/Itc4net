@@ -1,22 +1,21 @@
 ﻿using System;
-using FluentAssertions;
+using Shouldly;
 using Itc4net.Binary;
-using NUnit.Framework;
+using TUnit.Core;
 
 namespace Itc4net.Tests.Binary
 {
-    [TestFixture]
     public class DecoderTests
     {
         Decoder _decoder;
 
-        [SetUp]
+        [Before(HookType.Test)]
         public void SetUp()
         {
             _decoder = new Decoder();
         }
 
-        [TearDown]
+        [After(HookType.Test)]
         public void TearDown()
         {
             _decoder.Dispose();
@@ -32,7 +31,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp());
+            s.ShouldBe(new Stamp());
         }
 
         [Test]
@@ -45,7 +44,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, 0));
+            s.ShouldBe(new Stamp(0, 0));
         }
 
         [Test]
@@ -58,7 +57,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(new Id.Node(0, 1), 0));
+            s.ShouldBe(new Stamp(new Id.Node(0, 1), 0));
         }
 
         [Test]
@@ -71,7 +70,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(new Id.Node(1, 0), 0));
+            s.ShouldBe(new Stamp(new Id.Node(1, 0), 0));
         }
 
         [Test]
@@ -84,7 +83,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(new Id.Node(new Id.Node(1, 0), new Id.Node(0, 1)), 0));
+            s.ShouldBe(new Stamp(new Id.Node(new Id.Node(1, 0), new Id.Node(0, 1)), 0));
         }
 
         [Test]
@@ -97,7 +96,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(0, 0, 1)));
+            s.ShouldBe(new Stamp(0, new Event.Node(0, 0, 1)));
         }
 
         [Test]
@@ -110,7 +109,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(0, 1, 0)));
+            s.ShouldBe(new Stamp(0, new Event.Node(0, 1, 0)));
         }
 
         [Test]
@@ -124,7 +123,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(0, 1, 1)));
+            s.ShouldBe(new Stamp(0, new Event.Node(0, 1, 1)));
         }
 
         [Test]
@@ -138,7 +137,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(0, new Event.Node(0, 1, 0), 1)));
+            s.ShouldBe(new Stamp(0, new Event.Node(0, new Event.Node(0, 1, 0), 1)));
         }
 
         [Test]
@@ -152,7 +151,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(1, 0, 1)));
+            s.ShouldBe(new Stamp(0, new Event.Node(1, 0, 1)));
         }
 
         [Test]
@@ -166,7 +165,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(1, 1, 0)));
+            s.ShouldBe(new Stamp(0, new Event.Node(1, 1, 0)));
         }
 
         [Test]
@@ -180,7 +179,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, new Event.Node(1, 1, new Event.Node(3, 1, 0))));
+            s.ShouldBe(new Stamp(0, new Event.Node(1, 1, new Event.Node(3, 1, 0))));
         }
 
         [Test]
@@ -194,7 +193,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, 17));
+            s.ShouldBe(new Stamp(0, 17));
         }
 
         [Test]
@@ -208,7 +207,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(0, 258));
+            s.ShouldBe(new Stamp(0, 258));
         }
 
         [Test]
@@ -224,7 +223,7 @@ namespace Itc4net.Tests.Binary
 
             // Assert
             // Arrange
-            s.Should().Be(new Stamp(0, 513));
+            s.ShouldBe(new Stamp(0, 513));
         }
 
         [Test]
@@ -240,7 +239,7 @@ namespace Itc4net.Tests.Binary
 
             // Assert
             // Arrange
-            s.Should().Be(new Stamp(0, 21474836));
+            s.ShouldBe(new Stamp(0, 21474836));
         }
 
         [Test]
@@ -253,7 +252,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(new Id.Node(1, 0), new Event.Node(1, 1, 0)));
+            s.ShouldBe(new Stamp(new Id.Node(1, 0), new Event.Node(1, 1, 0)));
         }
 
         [Test]
@@ -266,7 +265,7 @@ namespace Itc4net.Tests.Binary
             Stamp s = _decoder.Decode(bytes);
 
             // Assert
-            s.Should().Be(new Stamp(new Id.Node(0, 1), new Event.Node(1, 1, 0)));
+            s.ShouldBe(new Stamp(new Id.Node(0, 1), new Event.Node(1, 1, 0)));
         }
 
         [Test]
@@ -274,7 +273,7 @@ namespace Itc4net.Tests.Binary
         {
             Action act = () => _decoder.Decode(null);
 
-            act.Should().Throw<ArgumentNullException>();
+            act.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -282,10 +281,11 @@ namespace Itc4net.Tests.Binary
         {
             Action act = () => _decoder.Decode(new byte[0]);
 
-            act.Should().Throw<DecoderException>().Where(
-                e => e.Position == 0 // 0-based index for decoder
-                && e.Expecting == null
-                && e.Found == BitProcessor.EndOfStream);
+            var ex = act.ShouldThrow<DecoderException>();
+
+            ex.Position.ShouldBe(0); // 0-based index for decoder
+            ex.Expecting.ShouldBeNull();
+            ex.Found.ShouldBe(BitProcessor.EndOfStream);
         }
 
         [Test]
@@ -297,10 +297,11 @@ namespace Itc4net.Tests.Binary
             //
             Action act = () => _decoder.Decode(new byte[] { 0x00 });
 
-            act.Should().Throw<DecoderException>().Where(
-                e => e.Position == 8
-                && e.Expecting == null
-                && e.Found == BitProcessor.EndOfStream);
+            var ex = act.ShouldThrow<DecoderException>();
+
+            ex.Position.ShouldBe(8);
+            ex.Expecting.ShouldBeNull();
+            ex.Found.ShouldBe(BitProcessor.EndOfStream);
         }
     }
 }

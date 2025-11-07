@@ -1,18 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
-using FluentAssertions;
-using NUnit.Framework;
+using Shouldly;
+using TUnit.Core;
 
 namespace Itc4net.Tests
 {
-    [TestFixture]
     public class StampConverterTests
     {
         [Test]
         public void StampShouldDeclareTypeConverter()
         {
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(Stamp));
-            converter.Should().BeOfType<StampConverter>();
+            converter.ShouldBeOfType<StampConverter>();
         }
 
         [Test]
@@ -20,7 +19,7 @@ namespace Itc4net.Tests
         {
             // Note, this is default TypeConverter behavior
             var converter = new StampConverter();
-            converter.CanConvertTo(typeof(string)).Should().BeTrue();
+            converter.CanConvertTo(typeof(string)).ShouldBeTrue();
         }
 
         [Test]
@@ -28,7 +27,7 @@ namespace Itc4net.Tests
         {
             // Note, this is default TypeConverter behavior
             var converter = new StampConverter();
-            converter.CanConvertTo(typeof(int)).Should().BeFalse();
+            converter.CanConvertTo(typeof(int)).ShouldBeFalse();
         }
 
         [Test]
@@ -40,8 +39,8 @@ namespace Itc4net.Tests
 
             string result = (string) converter.ConvertTo(stamp, typeof(string));
 
-            result.Should().Be(stamp.ToString());
-            result.Should().Be("(((1,0),0),(0,(1,1,0),0))");
+            result.ShouldBe(stamp.ToString());
+            result.ShouldBe("(((1,0),0),(0,(1,1,0),0))");
         }
 
         [Test]
@@ -52,14 +51,14 @@ namespace Itc4net.Tests
             var converter = new StampConverter();
 
             Action act = () => converter.ConvertTo(stamp, typeof(int));
-            act.Should().Throw<NotSupportedException>();
+            act.ShouldThrow<NotSupportedException>();
         }
 
         [Test]
         public void CanConvertFromShouldReturnTrueWhenSourceTypeIsString()
         {
             var converter = new StampConverter();
-            converter.CanConvertFrom(typeof(string)).Should().BeTrue();
+            converter.CanConvertFrom(typeof(string)).ShouldBeTrue();
         }
 
         [Test]
@@ -67,7 +66,7 @@ namespace Itc4net.Tests
         {
             // Note, this is default TypeConverter behavior
             var converter = new StampConverter();
-            converter.CanConvertFrom(typeof(int)).Should().BeFalse();
+            converter.CanConvertFrom(typeof(int)).ShouldBeFalse();
         }
 
         [Test]
@@ -76,7 +75,7 @@ namespace Itc4net.Tests
             var converter = new StampConverter();
             Stamp result = (Stamp) converter.ConvertFrom("(((1,0),0),(0,(1,1,0),0))");
 
-            result.Should().Be(new Stamp(((1, 0), 0), (0, (1, 1, 0), 0)));
+            result.ShouldBe(new Stamp(((1, 0), 0), (0, (1, 1, 0), 0)));
         }
 
         [Test]
@@ -86,7 +85,7 @@ namespace Itc4net.Tests
             var converter = new StampConverter();
             bool result = converter.IsValid("(((1,0),0),(0,(1,1,0),0))");
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Test]
@@ -97,7 +96,7 @@ namespace Itc4net.Tests
             bool result = converter.IsValid("(((1,0),0),(0,(1,1,0);0))");
             //                                                    ^--- invalid char
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
     }
 }

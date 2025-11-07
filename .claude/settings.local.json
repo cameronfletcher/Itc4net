@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet test)",
+      "Bash(dotnet test:*)",
+      "Bash(.Itc4net.Tests.exe --help)",
+      "Bash(Itc4net.Tests.exe --info)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

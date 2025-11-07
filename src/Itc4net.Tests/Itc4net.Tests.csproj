@@ -2,21 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
+		<RootNamespace>Itc4net.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Itc4net\Itc4net.csproj" />
-    <PackageReference Include="FluentAssertions" Version="6.12.1" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
-    <PackageReference Include="NUnit" Version="4.2.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="*.ncrunchproject" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
+    <PackageReference Include="TUnit" Version="0.5.*" />
   </ItemGroup>
 
 </Project>

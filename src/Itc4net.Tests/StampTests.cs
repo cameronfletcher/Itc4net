@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using FluentAssertions;
+using Shouldly;
 using Itc4net.Binary;
-using NUnit.Framework;
+using TUnit.Core;
 
 namespace Itc4net.Tests
 {
-    [TestFixture]
     public class StampTests
     {
         [Test]
@@ -14,8 +13,8 @@ namespace Itc4net.Tests
         {
             var seed = new Stamp();
 
-            seed.Should().Be(new Stamp(1, 0));
-            seed.ToString().Should().Be("(1,0)");
+            seed.ShouldBe(new Stamp(1, 0));
+            seed.ToString().ShouldBe("(1,0)");
         }
 
         //[Test]
@@ -24,12 +23,12 @@ namespace Itc4net.Tests
         //    var seed = new Stamp();
 
         //    Tuple<Stamp, Stamp> forks = seed.Fork();
-        //    forks.Item1.ToString().Should().Be("((1,0),0)");
-        //    forks.Item2.ToString().Should().Be("((0,1),0)");
+        //    forks.Item1.ToString().ShouldBe("((1,0),0)");
+        //    forks.Item2.ToString().ShouldBe("((0,1),0)");
         //}
 
-        [Test(Description = "fill(0,e) = e")]
-        public void FillShouldReturnUnchangedEventWhenAnonymousId()
+        [Test]
+        public void FillShouldReturnUnchangedEventWhenAnonymousId() // fill(0,e) = e
         {
             // Arrange
             Stamp s = new Stamp(0, new Event.Node(1, 2, 3));
@@ -38,11 +37,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Node(1, 2, 3));
+            e.ShouldBe(new Event.Node(1, 2, 3));
         }
 
-        [Test(Description = "fill(1,e) = max(e), test e is leaf")]
-        public void FillShouldReturnMaxEventWhenId1WithLeaf()
+        [Test]
+        public void FillShouldReturnMaxEventWhenId1WithLeaf() // fill(1,e) = max(e), test e is leaf
         {
             // Arrange
             Stamp s = new Stamp(1, new Event.Leaf(3));
@@ -51,11 +50,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(3));
+            e.ShouldBe(new Event.Leaf(3));
         }
 
-        [Test(Description = "fill(1,e) = max(e), test e is node")]
-        public void FillShouldReturnMaxEventWhenId1WithNode()
+        [Test]
+        public void FillShouldReturnMaxEventWhenId1WithNode() // fill(1,e) = max(e), test e is node
         {
             // Arrange
             Stamp s = new Stamp(1, new Event.Node(3, 1, 0));
@@ -64,11 +63,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(4));
+            e.ShouldBe(new Event.Leaf(4));
         }
 
-        [Test(Description = "fill(i,n) = n, test id leaf:0")]
-        public void FillShouldReturnLeafEventForId0WhenLeafEvent()
+        [Test]
+        public void FillShouldReturnLeafEventForId0WhenLeafEvent() // fill(i,n) = n, test id leaf:0
         {
             // Arrange
             Stamp s = new Stamp(new Id.Leaf(0), new Event.Leaf(3));
@@ -77,11 +76,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(3));
+            e.ShouldBe(new Event.Leaf(3));
         }
 
-        [Test(Description = "fill(i,n) = n, test id leafL1")]
-        public void FillShouldReturnLeafEventForId1WhenLeafEvent()
+        [Test]
+        public void FillShouldReturnLeafEventForId1WhenLeafEvent() // fill(i,n) = n, test id leafL1
         {
             // Arrange
             Stamp s = new Stamp(new Id.Leaf(1), new Event.Leaf(3));
@@ -90,11 +89,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(3));
+            e.ShouldBe(new Event.Leaf(3));
         }
 
-        [Test(Description = "fill(i,n) = n, test id node")]
-        public void FillShouldReturnLeafEventForAnyIdWhenLeafEvent()
+        [Test]
+        public void FillShouldReturnLeafEventForAnyIdWhenLeafEvent() // fill(i,n) = n, test id node
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(new Id.Node(1, 0), 0), new Event.Leaf(3));
@@ -103,11 +102,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(3));
+            e.ShouldBe(new Event.Leaf(3));
         }
 
-        [Test(Description = "fill((1,ir)) = norm((n,max(max(el),min(eʹr)),eʹr)), where eʹr=fill(ir,er)")]
-        public void FillShouldReturnDefinedStructureWhenIdNodeLeft1()
+        [Test]
+        public void FillShouldReturnDefinedStructureWhenIdNodeLeft1() // fill((1,ir)) = norm((n,max(max(el),min(eʹr)),eʹr)), where eʹr=fill(ir,er)
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(1, 0), new Event.Node(1, new Event.Node(0, 1, 0), 1));
@@ -116,11 +115,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(2));
+            e.ShouldBe(new Event.Leaf(2));
         }
 
-        [Test(Description = "fill((il,1)) = norm((n,eʹl,max(max(er),min(eʹl)))), where eʹl=fill(il,el)")]
-        public void FillShouldReturnDefinedStructureWhenIdNodeRight1()
+        [Test]
+        public void FillShouldReturnDefinedStructureWhenIdNodeRight1() // fill((il,1)) = norm((n,eʹl,max(max(er),min(eʹl)))), where eʹl=fill(il,el)
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(0, 1), new Event.Node(1, 1, new Event.Node(0, 1, 0)));
@@ -129,11 +128,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Leaf(2));
+            e.ShouldBe(new Event.Leaf(2));
         }
 
-        [Test(Description = "fill((il,ir)) = norm(n,fill(il,el),fill(ir,er))")]
-        public void FillShouldReturnDefinedStructureWhenIdNode()
+        [Test]
+        public void FillShouldReturnDefinedStructureWhenIdNode() // fill((il,ir)) = norm(n,fill(il,el),fill(ir,er))
         {
             // Arrange
             Stamp s = new Stamp(
@@ -145,11 +144,11 @@ namespace Itc4net.Tests
             Event e = s.Fill();
 
             // Assert
-            e.Should().Be(new Event.Node(2, 1, new Event.Node(0, 0, 1)));
+            e.ShouldBe(new Event.Node(2, 1, new Event.Node(0, 0, 1)));
         }
 
-        [Test(Description = "grow(1,n) = (n+1,0)")]
-        public void GrowShouldInflateEventLeafWhenId1AndLeafEvent()
+        [Test]
+        public void GrowShouldInflateEventLeafWhenId1AndLeafEvent() // grow(1,n) = (n+1,0)
         {
             // Arrange
             Stamp s = new Stamp(1, 2);
@@ -160,12 +159,12 @@ namespace Itc4net.Tests
             int cost = result.Item2;
 
             // Assert
-            e.Should().Be(new Event.Leaf(3));
-            cost.Should().Be(0);
+            e.ShouldBe(new Event.Leaf(3));
+            cost.ShouldBe(0);
         }
 
-        [Test(Description = "grow(i,n), where (eʹ,c) = grow(i,(n,0,0)), test id:(0,1)")]
-        public void GrowShouldInflateRightEventLeafWhenEventLeafAndLeftId0()
+        [Test]
+        public void GrowShouldInflateRightEventLeafWhenEventLeafAndLeftId0() // grow(i,n), where (eʹ,c) = grow(i,(n,0,0)), test id:(0,1)
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(0, 1), 1);
@@ -176,12 +175,12 @@ namespace Itc4net.Tests
             int cost = result.Item2;
 
             // Assert
-            e.Should().Be(new Event.Node(1, 0, 1));
-            cost.Should().Be(1001);
+            e.ShouldBe(new Event.Node(1, 0, 1));
+            cost.ShouldBe(1001);
         }
 
-        [Test(Description = "grow(i,n), where (eʹ,c) = grow(i,(n,0,0)), test id:(1,0)")]
-        public void GrowShouldInflateLeftEventLeafWhenEventLeafAndRightId1()
+        [Test]
+        public void GrowShouldInflateLeftEventLeafWhenEventLeafAndRightId1() // grow(i,n), where (eʹ,c) = grow(i,(n,0,0)), test id:(1,0)
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(1, 0), 1);
@@ -192,12 +191,12 @@ namespace Itc4net.Tests
             int cost = result.Item2;
 
             // Assert
-            e.Should().Be(new Event.Node(1, 1, 0));
-            cost.Should().Be(1001);
+            e.ShouldBe(new Event.Node(1, 1, 0));
+            cost.ShouldBe(1001);
         }
 
-       [Test(Description = "grow((0,ir),(n,el,er)) = ((n,el,eʹr),cr+1), where (eʹr,cr)=grow(ir,er)")]
-        public void GrowShouldInflateRightEventWhenLeftId0()
+        [Test]
+        public void GrowShouldInflateRightEventWhenLeftId0() // grow((0,ir),(n,el,er)) = ((n,el,eʹr),cr+1), where (eʹr,cr)=grow(ir,er)
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(0, 1), new Event.Node(1, 1, 0));
@@ -208,12 +207,12 @@ namespace Itc4net.Tests
             int cost = result.Item2;
 
             // Assert
-            e.Should().Be(new Event.Node(1, 1, 1)); // TODO: shouldn't grow normalize to (2,0,0)?
-            cost.Should().Be(1);
+            e.ShouldBe(new Event.Node(1, 1, 1)); // TODO: shouldn't grow normalize to (2,0,0)?
+            cost.ShouldBe(1);
         }
 
-        [Test(Description = "grow((il,0),(n,el,er)) = ((n,eʹl,er),cl+1), where (eʹl,cl)=grow(ilr,el)")]
-        public void GrowShouldInflateLeftEventWhenRightId0()
+        [Test]
+        public void GrowShouldInflateLeftEventWhenRightId0() // grow((il,0),(n,el,er)) = ((n,eʹl,er),cl+1), where (eʹl,cl)=grow(ilr,el)
         {
             // Arrange
             Stamp s = new Stamp(new Id.Node(1, 0), new Event.Node(1, 1, 0));
@@ -224,8 +223,8 @@ namespace Itc4net.Tests
             int cost = result.Item2;
 
             // Assert
-            e.Should().Be(new Event.Node(1, 2, 0));
-            cost.Should().Be(1);
+            e.ShouldBe(new Event.Node(1, 2, 0));
+            cost.ShouldBe(1);
         }
 
         [Test]
@@ -238,7 +237,7 @@ namespace Itc4net.Tests
             Stamp s2 = s1.Event();
 
             // Assert
-            s1.Leq(s2).Should().BeTrue();
+            s1.Leq(s2).ShouldBeTrue();
         }
 
         [Test]
@@ -251,7 +250,7 @@ namespace Itc4net.Tests
             Stamp s2 = s1.Event();
 
             // Assert
-            s2.Leq(s1).Should().BeFalse();
+            s2.Leq(s1).ShouldBeFalse();
         }
 
         [Test]
@@ -261,7 +260,7 @@ namespace Itc4net.Tests
             Stamp s = new Stamp().Event().Event();
 
             // Act & Assert
-            s.Leq(s).Should().BeTrue();
+            s.Leq(s).ShouldBeTrue();
         }
 
         [Test]
@@ -274,7 +273,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x30 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x30 });
             // 00110000 = 0x30
             // ^^^      id
             //    ^^^^  event
@@ -290,7 +289,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x10 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x10 });
             // 00010000 = 0x10
             // ^^^      id
             //    ^^^^  event
@@ -306,7 +305,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x4C, 0x00 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x4C, 0x00 });
             // 01001100 00000000 = 0x4C 0x00
             // ^^^^^             id
             //      ^^^ ^        event
@@ -322,7 +321,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x8C, 0x00 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x8C, 0x00 });
             // 10001100 00000000 = 0x8C 0x00
             // ^^^^^             id
             //      ^^^ ^        event
@@ -338,7 +337,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0xE2, 0x98 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0xE2, 0x98 });
             // 11100010 10011000 = 0xE2 0x98
             // ^^^^^^^^ ^^^^     id
             //              ^^^^ event
@@ -354,7 +353,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x02, 0x40 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x02, 0x40 });
             // 00000010 01000000 = 0x02 0x40
             // ^^^               id
             //    ^^^^^ ^^       event
@@ -370,7 +369,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x06, 0x40 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x06, 0x40 });
             // 00000110 01000000 = 0x06 0x40
             // ^^^               id
             //    ^^^^^ ^^       event
@@ -387,7 +386,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x0A, 0x64 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x0A, 0x64 });
             // 00001010 01100100 = 0x0A 0x64
             // ^^^               id
             //    ^^^^^ ^^^^^^   event
@@ -404,7 +403,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x08, 0xCC, 0x80 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x08, 0xCC, 0x80 });
             // 00001000 11001100 10000000 = 0x08 0xCC 0x80
             // ^^^                        id
             //    ^^^^^ ^^^^^^^^ ^        event
@@ -421,7 +420,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x0C, 0x99 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x0C, 0x99 });
             // 00001100 10011001 = 0x0C 0x99
             // ^^^               id
             //    ^^^^^ ^^^^^^^^ event
@@ -438,7 +437,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x0D, 0x99 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x0D, 0x99 });
             // 00001101 10011001 = 0x0D 0x99
             // ^^^               id
             //    ^^^^^ ^^^^^^^^ event
@@ -455,7 +454,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x0F, 0x32, 0xDB, 0x90 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x0F, 0x32, 0xDB, 0x90 });
             // 00001111 00110010 11011011 10010000 = 0x0F 0x32 0xDB 0x90
             // ^^^                                 id
             //    ^^^^^ ^^^^^^^^ ^^^^^^^^ ^^^^     event
@@ -472,7 +471,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x1C, 0xA0 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x1C, 0xA0 });
             // 00011100 10100000 = 0x1C 0xA0
             // ^^^               id
             //    ^^^^^ ^^^^     event
@@ -489,7 +488,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x1F, 0xC0, 0xC0 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x1F, 0xC0, 0xC0 });
             // 00011111 11000000 11000000 = 0x1F 0xC0 0xC0
             // ^^^                        id
             //    ^^^^^ ^^^^^^^^ ^^^      event
@@ -506,7 +505,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x1F, 0xE0, 0x28 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x1F, 0xE0, 0x28 });
             // 00011111 11100000 00101000 = 0x1F 0xE0 0x28
             // ^^^                        id
             //    ^^^^^ ^^^^^^^^ ^^^^^    event
@@ -525,7 +524,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x1F, 0xFF, 0xFF, 0xC8, 0xF5, 0xC3, 0x00 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x1F, 0xFF, 0xFF, 0xC8, 0xF5, 0xC3, 0x00 });
 
             //
 
@@ -544,7 +543,7 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x8B, 0x66, 0x40 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x8B, 0x66, 0x40 });
             // 10001011 01100110 01000000 = 0x8B 66 40
             // ^^^^^                      id
             //      ^^^ ^^^^^^^^ ^^       event
@@ -560,15 +559,16 @@ namespace Itc4net.Tests
             byte[] bytes = s.ToBinary();
 
             // Assert
-            bytes.Should().BeEquivalentTo(new byte[] { 0x4B, 0x66, 0x40 });
+            bytes.ShouldBeEquivalentTo(new byte[] { 0x4B, 0x66, 0x40 });
             // 01001011 01100110 01000000 = 0x4B 66 40
             // ^^^^^                      id
             //      ^^^ ^^^^^^^^ ^^       event
         }
 
-        [TestCase(0)]
-        [TestCase(21474836)] // yes, this exposed an issue
-        [TestCase(int.MaxValue)]
+        [Test]
+        [Arguments(0)]
+        [Arguments(21474836)] // yes, this exposed an issue
+        [Arguments(int.MaxValue)]
         public void StampShouldBeAbleToRoundTripBinaryEncoding(int n)
         {
             // Arrange
@@ -581,7 +581,7 @@ namespace Itc4net.Tests
             Stamp decoded = decoder.Decode(bytes);
 
             // Assert
-            decoded.Should().Be(original);
+            decoded.ShouldBe(original);
         }
 
         [Test]
@@ -590,7 +590,7 @@ namespace Itc4net.Tests
             Stamp s1 = new Stamp();
             Stamp s2 = new Stamp();
 
-            s1.CompareTo(s2).Should().Be(0);
+            s1.CompareTo(s2).ShouldBe(0);
         }
 
         [Test]
@@ -603,7 +603,7 @@ namespace Itc4net.Tests
             Stamp s1 = ((1, 0), (0, 1, 0));
             Stamp s2 = ((0, 1), (0, 1, 0));
 
-            s1.CompareTo(s2).Should().Be(0);
+            s1.CompareTo(s2).ShouldBe(0);
         }
 
         [Test]
@@ -612,7 +612,7 @@ namespace Itc4net.Tests
             Stamp s1 = new Stamp();
             Stamp s2 = s1.Event();
 
-            s1.CompareTo(s2).Should().BeLessThan(0);
+            s1.CompareTo(s2).ShouldBeLessThan(0);
         }
 
         [Test]
@@ -621,7 +621,7 @@ namespace Itc4net.Tests
             Stamp s1 = new Stamp();
             Stamp s2 = s1.Event();
 
-            s2.CompareTo(s1).Should().BeGreaterThan(0);
+            s2.CompareTo(s1).ShouldBeGreaterThan(0);
         }
 
         [Test]
@@ -634,8 +634,8 @@ namespace Itc4net.Tests
             s1 = s1.Event();
             s2 = s2.Event();
 
-            s1.Concurrent(s2).Should().BeTrue();
-            s1.CompareTo(s2).Should().Be(0);
+            s1.Concurrent(s2).ShouldBeTrue();
+            s1.CompareTo(s2).ShouldBe(0);
         }
 
         [Test]
@@ -644,7 +644,7 @@ namespace Itc4net.Tests
         {
             Action act = () => { new Stamp().CompareTo(null); };
 
-            act.Should().Throw<ArgumentNullException>();
+            act.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -662,7 +662,7 @@ namespace Itc4net.Tests
             Stamp s2 = (((0,(1,0)),(1,0)),(1,2,(0,(1,0,2),0)));
             //         |<----- id ----->| |<----- event ---->|
 
-            s1.Equals(s2).Should().BeTrue();
+            s1.Equals(s2).ShouldBeTrue();
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
-using FluentAssertions;
-using NUnit.Framework;
+using Shouldly;
+using TUnit.Core;
 
 namespace Itc4net.Tests
 {
-    [TestFixture]
     public class StampExtensionsTests
     {
         [Test]
@@ -18,7 +17,7 @@ namespace Itc4net.Tests
             Stamp returnValue = s.Send(out _);
 
             // Assert
-            returnValue.Should().Be(s.Event());
+            returnValue.ShouldBe(s.Event());
         }
 
         [Test]
@@ -32,7 +31,7 @@ namespace Itc4net.Tests
             s.Send(out outParameter);
 
             // Assert
-            outParameter.IsAnonymous.Should().BeTrue();
+            outParameter.IsAnonymous.ShouldBeTrue();
         }
 
         [Test]
@@ -41,7 +40,7 @@ namespace Itc4net.Tests
             Stamp a = ((1, 0), (0, 1, 0));
             Stamp b = ((0, 1), (0, 1, 0));
 
-            a.Equivalent(b).Should().BeTrue();
+            a.Equivalent(b).ShouldBeTrue();
         }
 
         [Test]
@@ -50,7 +49,7 @@ namespace Itc4net.Tests
             Stamp a = ((1, 0), (0, 1, 0));
             Stamp b = ((0, 1), (0, 0, 1));
 
-            a.Equivalent(b).Should().BeFalse();
+            a.Equivalent(b).ShouldBeFalse();
         }
 
         [Test]
@@ -59,7 +58,7 @@ namespace Itc4net.Tests
             Stamp a = ((1, 0), (0, 1, 0));
             Stamp b = a.Event();
 
-            a.Equivalent(b).Should().BeFalse();
+            a.Equivalent(b).ShouldBeFalse();
         }
     }
 }

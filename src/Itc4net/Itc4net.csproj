@@ -2,27 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
-    <Description>Itc4net is a C# implementation of Interval Tree Clocks, a causality tracking mechanism.</Description>
-    <Copyright>Copyright © 2017, Brant Fallin</Copyright>
-    <Title>Itc4net: interval tree clocks for .NET</Title>
-    <Company />
-    <Product>Itc4net</Product>
-    <Version>1.4.0</Version>
-    <Authors>Brant Fallin</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/fallin/Itc4net</PackageProjectUrl>
-    <PackageTags>itc;intervaltreeclock;causality</PackageTags>
-    <RepositoryUrl>https://github.com/fallin/Itc4net</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageReleaseNotes>See https://github.com/fallin/Itc4net/blob/master/docs/ReleaseNotes.md</PackageReleaseNotes>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="*.ncrunchproject" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<InternalsVisibleTo Include="Itc4net.Tests" />
+	</ItemGroup>
+	
 </Project>

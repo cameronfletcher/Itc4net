@@ -1,24 +1,23 @@
 ﻿using System;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
-using NUnit.Framework;
+using TUnit.Core;
 
 namespace Itc4net.Tests
 {
-    [TestFixture]
     public class EventTests
     {
         [Test]
         public void ToStringShouldCorrectlyRepresentLeafWith0()
         {
-            new Event.Leaf(0).ToString().Should().Be("0");
+            new Event.Leaf(0).ToString().ShouldBe("0");
         }
 
         [Test]
         public void ToStringShouldCorrectlyRepresentNode()
         {
             string s = new Event.Node(0, 3, new Event.Node(1, 2, 3)).ToString();
-            s.Should().Be("(0,3,(1,2,3))");
+            s.ShouldBe("(0,3,(1,2,3))");
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace Itc4net.Tests
         public void LeafCtorShouldThrowWhenNegativeN()
         {
             Action act = () => new Event.Leaf(-1);
-            act.Should().Throw<ArgumentOutOfRangeException>();
+            act.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
@@ -48,21 +47,21 @@ namespace Itc4net.Tests
         public void NodeCtorShouldThrowWhenNegativeN()
         {
             Action act = () => new Event.Node(-1, 0, 0);
-            act.Should().Throw<ArgumentOutOfRangeException>();
+            act.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
         public void NodeCtorShouldThrowWhenLeftEventNull()
         {
             Action act = () => new Event.Node(0, null, 0);
-            act.Should().Throw<ArgumentNullException>();
+            act.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
         public void NodeCtorShouldThrowWhenRightEventNull()
         {
             Action act = () => new Event.Node(0, 0, null);
-            act.Should().Throw<ArgumentNullException>();
+            act.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -141,7 +140,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Leaf(0);
 
             // Act & Assert
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -152,7 +151,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Leaf(1);
 
             // Act & Assert
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -163,7 +162,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Node(0, 1, 2);
 
             // Act & Assert
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -174,7 +173,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Node(9, 1, 2);
 
             // Act & Assert
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -185,7 +184,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Node(0, 9, 2);
 
             // Act & Assert
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -196,7 +195,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Node(0, 1, 9);
 
             // Act & Assert
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -207,7 +206,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Node(0, new Event.Node(3, 4, 5), new Event.Node(6, 7, 8));
 
             // Act & Assert
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -218,7 +217,7 @@ namespace Itc4net.Tests
             Event e2 = new Event.Node(0, new Event.Node(3, 5, 4), new Event.Node(6, 7, 8));
 
             // Act & Assert
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -232,7 +231,7 @@ namespace Itc4net.Tests
             int hash1 = e1.GetHashCode();
             int hash2 = e2.GetHashCode();
 
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -246,7 +245,7 @@ namespace Itc4net.Tests
             int hash1 = e1.GetHashCode();
             int hash2 = e2.GetHashCode();
 
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -260,7 +259,7 @@ namespace Itc4net.Tests
             int hash1 = e1.GetHashCode();
             int hash2 = e2.GetHashCode();
 
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -274,7 +273,7 @@ namespace Itc4net.Tests
             int hash1 = e1.GetHashCode();
             int hash2 = e2.GetHashCode();
 
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
         [Test]
@@ -288,7 +287,7 @@ namespace Itc4net.Tests
             int hash1 = e1.GetHashCode();
             int hash2 = e2.GetHashCode();
 
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -302,11 +301,11 @@ namespace Itc4net.Tests
             int hash1 = e1.GetHashCode();
             int hash2 = e2.GetHashCode();
 
-            e1.Equals(e2).Should().BeFalse();
+            e1.Equals(e2).ShouldBeFalse();
         }
 
-        [Test(Description = "lift := n↑m = n+m")]
-        public void LiftShouldReturnDefinedValueForLeaf()
+        [Test]
+        public void LiftShouldReturnDefinedValueForLeaf() // lift := n↑m = n+m
         {
             // Arrange
             int n = 2;
@@ -317,11 +316,11 @@ namespace Itc4net.Tests
             Event result = e.Lift(m);
 
             // Assert
-            result.Should().Be(new Event.Leaf(n+m));
+            result.ShouldBe(new Event.Leaf(n+m));
         }
 
-        [Test(Description = "lift := (n,e1,e2)↑m = (n+m,e1,e2)")]
-        public void LiftShouldReturnDefinedValueForNode()
+        [Test]
+        public void LiftShouldReturnDefinedValueForNode() // lift := (n,e1,e2)↑m = (n+m,e1,e2)
         {
             // Arrange
             int n = 2;
@@ -332,11 +331,11 @@ namespace Itc4net.Tests
             Event result = e.Lift(m);
 
             // Assert
-            result.Should().Be(new Event.Node(n + m, 8, 9));
+            result.ShouldBe(new Event.Node(n + m, 8, 9));
         }
 
-        [Test(Description = "sink := n↓m = n-m")]
-        public void SinkShouldReturnDefinedValueForLeaf()
+        [Test]
+        public void SinkShouldReturnDefinedValueForLeaf() // sink := n↓m = n-m
         {
             // Arrange
             int n = 2;
@@ -347,11 +346,11 @@ namespace Itc4net.Tests
             Event result = e.Sink(m);
 
             // Assert
-            result.Should().Be(new Event.Leaf(n - m));
+            result.ShouldBe(new Event.Leaf(n - m));
         }
 
-        [Test(Description = "sink := (n,e1,e2)↓m = (n-m,e1,e2)")]
-        public void SinkShouldReturnDefinedValueForNode()
+        [Test]
+        public void SinkShouldReturnDefinedValueForNode() // sink := (n,e1,e2)↓m = (n-m,e1,e2)
         {
             // Arrange
             int n = 2;
@@ -362,7 +361,7 @@ namespace Itc4net.Tests
             Event result = e.Sink(m);
 
             // Assert
-            result.Should().Be(new Event.Node(n - m, 8, 9));
+            result.ShouldBe(new Event.Node(n - m, 8, 9));
         }
 
         [Test]
@@ -375,11 +374,11 @@ namespace Itc4net.Tests
             Event result = e.Sink(3);
 
             // Assert
-            result.Should().Be(new Event.Node(0, 2, 3));
+            result.ShouldBe(new Event.Node(0, 2, 3));
         }
 
-        [Test(Description = "norm(n) = n")]
-        public void NormalizeShouldReturnNWhenLeafIsN()
+        [Test]
+        public void NormalizeShouldReturnNWhenLeafIsN() // norm(n) = n
         {
             // Arrange
             Event e = new Event.Leaf(2);
@@ -388,11 +387,11 @@ namespace Itc4net.Tests
             Event result = e.Normalize();
 
             // Assert
-            result.Should().Be(new Event.Leaf(2));
+            result.ShouldBe(new Event.Leaf(2));
         }
 
-        [Test(Description = "norm((n,m,m)) = n+m")]
-        public void NormalizeShouldReturnLeafWithNPlusMWhenNodeHasSameLeftAndRightEvents()
+        [Test]
+        public void NormalizeShouldReturnLeafWithNPlusMWhenNodeHasSameLeftAndRightEvents() // norm((n,m,m)) = n+m
         {
             // Arrange
             Event e = new Event.Node(2, 3, 3);
@@ -401,11 +400,11 @@ namespace Itc4net.Tests
             Event result = e.Normalize();
 
             // Assert
-            result.Should().Be(new Event.Leaf(5));
+            result.ShouldBe(new Event.Leaf(5));
         }
 
-        [Test(Description = "norm((n,e1,e2)) = (n+m,e1↓m,e2↓m), where m=min(min(e1),min(e2)) for leaf")]
-        public void NormalizeShouldReturnNormalizedTreeForNodeWithLeftAndRightLeafs()
+        [Test]
+        public void NormalizeShouldReturnNormalizedTreeForNodeWithLeftAndRightLeafs() // norm((n,e1,e2)) = (n+m,e1↓m,e2↓m), where m=min(min(e1),min(e2)) for leaf
         {
             // Arrange
             Event e = new Event.Node(1, 2, 3);
@@ -414,11 +413,11 @@ namespace Itc4net.Tests
             Event result = e.Normalize();
 
             // Assert
-            result.Should().Be(new Event.Node(3, 0, 1));
+            result.ShouldBe(new Event.Node(3, 0, 1));
         }
 
-        [Test(Description = "norm((n,e1,e2)) = (n+m,e1↓m,e2↓m), where m=min(min(e1),min(e2)) for node")]
-        public void NormalizeShouldReturnNormalizedTreeForNodeWithLeftNodeAndRightLeaf()
+        [Test]
+        public void NormalizeShouldReturnNormalizedTreeForNodeWithLeftNodeAndRightLeaf() // norm((n,e1,e2)) = (n+m,e1↓m,e2↓m), where m=min(min(e1),min(e2)) for node
         {
             // This is an example from the ITC paper which assumes events are always
             // normalized (or start as normalized). In this, the tree is not normalized, but
@@ -431,7 +430,7 @@ namespace Itc4net.Tests
             Event result = e.Normalize();
 
             // Assert
-            result.Should().Be(new Event.Node(4, new Event.Node(0,1,0), 1));
+            result.ShouldBe(new Event.Node(4, new Event.Node(0,1,0), 1));
         }
 
         [Test]
@@ -446,194 +445,194 @@ namespace Itc4net.Tests
             Event result = e.Normalize();
 
             // Assert
-            result.Should().Be(new Event.Node(4, new Event.Node(2, 0, 1), new Event.Node(0, 0, 2)));
+            result.ShouldBe(new Event.Node(4, new Event.Node(2, 0, 1), new Event.Node(0, 0, 2)));
         }
 
-        [Test(Description = "min(n) = n")]
-        public void MinShouldReturnNWhenLeafN()
+        [Test]
+        public void MinShouldReturnNWhenLeafN() // min(n) = n
         {
             // Arrange
             Event e = new Event.Leaf(3);
 
             // Act & Assert
-            e.Min().Should().Be(3);
+            e.Min().ShouldBe(3);
         }
 
-        [Test(Description = "min((n,e1,e2)) = n+min(min(e1),min(e2))")]
-        public void MinShouldReturnNPlusMinOfLeftAndRightEvents()
+        [Test]
+        public void MinShouldReturnNPlusMinOfLeftAndRightEvents() // min((n,e1,e2)) = n+min(min(e1),min(e2))
         {
             // Arrange
             Event e = new Event.Node(1, 2, 3);
 
             // Act & Assert
-            e.Min().Should().Be(1 + 2);
+            e.Min().ShouldBe(1 + 2);
         }
 
-        [Test(Description = "max(n) = n")]
-        public void MaxShouldReturnNWhenLeafN()
+        [Test]
+        public void MaxShouldReturnNWhenLeafN() // max(n) = n
         {
             // Arrange
             Event e = new Event.Leaf(3);
 
             // Act & Assert
-            e.Max().Should().Be(3);
+            e.Max().ShouldBe(3);
         }
 
-        [Test(Description = "max((n,e1,e2)) = n+max(max(e1),max(e2))")]
-        public void MaxShouldReturnNPlusMaxOfLeftAndRightEvents()
+        [Test]
+        public void MaxShouldReturnNPlusMaxOfLeftAndRightEvents() // max((n,e1,e2)) = n+max(max(e1),max(e2))
         {
             // Arrange
             Event e = new Event.Node(1, 2, 3);
 
             // Act & Assert
-            e.Max().Should().Be(1 + 3);
+            e.Max().ShouldBe(1 + 3);
         }
 
-        [Test(Description = "leq(n1,n2) = n1<=n2, case n1 < n2")]
-        public void LeqShouldReturnTrueWhenN1IsLessThenN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenN1IsLessThenN2() // leq(n1,n2) = n1<=n2, case n1 < n2
         {
             // Arrange
             Event e1 = new Event.Leaf(1);
             Event e2 = new Event.Leaf(2);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq(n1,n2) = n1<=n2, case n1 == n2")]
-        public void LeqShouldReturnTrueWhenN1EqualsN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenN1EqualsN2() // leq(n1,n2) = n1<=n2, case n1 == n2
         {
             // Arrange
             Event e1 = new Event.Leaf(1);
             Event e2 = new Event.Leaf(1);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq(n1,n2) = n1<=n2, case n1 > n2")]
-        public void LeqShouldReturnFalseWhenN1IsGreaterThanN2()
+        [Test]
+        public void LeqShouldReturnFalseWhenN1IsGreaterThanN2() // leq(n1,n2) = n1<=n2, case n1 > n2
         {
             // Arrange
             Event e1 = new Event.Leaf(2);
             Event e2 = new Event.Leaf(1);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeFalse();
+            e1.Leq(e2).ShouldBeFalse();
         }
 
-        [Test(Description = "leq(n1,(n2,l2,r2)) = n1<=n2")]
-        public void LeqShouldReturnTrueWhenLeafN1IsLessThanNodeN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenLeafN1IsLessThanNodeN2() // leq(n1,(n2,l2,r2)) = n1<=n2
         {
             // Arrange
             Event e1 = 1;
             Event e2 = new Event.Node(2, 0, 0);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1 < n2")]
-        public void LeqShouldReturnTrueWhenNodeN1IsLessThanLeafN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenNodeN1IsLessThanLeafN2() // leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1 < n2
         {
             // Arrange
             Event e1 = new Event.Node(2, 0, 0);
             Event e2 = new Event.Leaf(3);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+l1<n2")]
-        public void LeqShouldReturnTrueWhenNodeN1PlusL1IsLessThanOrEqualToLeafN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenNodeN1PlusL1IsLessThanOrEqualToLeafN2() // leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+l1<n2
         {
             // Arrange
             Event e1 = new Event.Node(2, 1, 0);
             Event e2 = new Event.Leaf(3);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+r1<n2")]
-        public void LeqShouldReturnTrueWhenNodeN1PlusR1IsLessThanOrEqualToLeafN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenNodeN1PlusR1IsLessThanOrEqualToLeafN2() // leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+r1<n2
         {
             // Arrange
             Event e1 = new Event.Node(2, 0, 1);
             Event e2 = new Event.Leaf(3);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+l1>n2")]
-        public void LeqShouldReturnFalseWhenNodeN1PlusL1IsGreaterThanLeafN2()
+        [Test]
+        public void LeqShouldReturnFalseWhenNodeN1PlusL1IsGreaterThanLeafN2() // leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+l1>n2
         {
             // Arrange
             Event e1 = new Event.Node(2, 2, 0);
             Event e2 = new Event.Leaf(3);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeFalse();
+            e1.Leq(e2).ShouldBeFalse();
         }
 
-        [Test(Description = "leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+r1>n2")]
-        public void LeqShouldReturnFalseWhenNodeN1PlusR1IsGreaterThanLeafLeafN2()
+        [Test]
+        public void LeqShouldReturnFalseWhenNodeN1PlusR1IsGreaterThanLeafLeafN2() // leq((n1,l1,r2),n2) = n1<=n2 Λ leq(l1↑n1,n2) Λ leq(r1↑n1,n2), case n1+r1>n2
         {
             // Arrange
             Event e1 = new Event.Node(2, 0, 2);
             Event e2 = new Event.Leaf(3);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeFalse();
+            e1.Leq(e2).ShouldBeFalse();
         }
 
-        [Test(Description = "leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1<l2")]
-        public void LeqShouldReturnTrueWhenNodeN1EqualsNodeN2()
+        [Test]
+        public void LeqShouldReturnTrueWhenNodeN1EqualsNodeN2() // leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1<l2
         {
             // Arrange
             Event e1 = new Event.Node(2, 0, 0);
             Event e2 = new Event.Node(2, 0, 0);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1<l2")]
-        public void LeqShouldReturnTrueWhenNodeN1EqualsNodeN2AndL1LessThanL2()
+        [Test]
+        public void LeqShouldReturnTrueWhenNodeN1EqualsNodeN2AndL1LessThanL2() // leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1<l2
         {
             // Arrange
             Event e1 = new Event.Node(2, 2, 0);
             Event e2 = new Event.Node(2, 2, 0);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1==l2")]
-        public void LeqShouldReturnTrueWhenNodeN1EqualsNodeN2AndL1EqualsL2()
+        [Test]
+        public void LeqShouldReturnTrueWhenNodeN1EqualsNodeN2AndL1EqualsL2() // leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1==l2
         {
             // Arrange
             Event e1 = new Event.Node(2, 2, 0);
             Event e2 = new Event.Node(2, 2, 0);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeTrue();
+            e1.Leq(e2).ShouldBeTrue();
         }
 
-        [Test(Description = "leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1>l2")]
-        public void LeqShouldReturnFalseWhenNodeN1EqualsNodeN2AndL1GreaterThanL2()
+        [Test]
+        public void LeqShouldReturnFalseWhenNodeN1EqualsNodeN2AndL1GreaterThanL2() // leq((n1,l1,r2),(n2,l2,r2)) = n1<=n2 Λ leq(l1↑n1,l2↑n2) Λ leq(r1↑n1,r2↑n2), case n1=n2, l1>l2
         {
             // Arrange
             Event e1 = new Event.Node(2, 3, 0);
             Event e2 = new Event.Node(2, 2, 0);
 
             // Act & Assert
-            e1.Leq(e2).Should().BeFalse();
+            e1.Leq(e2).ShouldBeFalse();
         }
 
-        [Test(Description = "join(n1,n2) = max(n1,n2)")]
-        public void JoinShouldReturnMaxNWhenBothLeafs()
+        [Test]
+        public void JoinShouldReturnMaxNWhenBothLeafs() // join(n1,n2) = max(n1,n2)
         {
             // Arrange
             Event e1 = new Event.Leaf(1);
@@ -643,11 +642,11 @@ namespace Itc4net.Tests
             Event result = e1.Join(e2);
 
             // Assert
-            result.Should().Be(new Event.Leaf(2));
+            result.ShouldBe(new Event.Leaf(2));
         }
 
-        [Test(Description = "join(n1,(n2,l2,r2)) = join((n1,0,0),(n2,l2,r2))")]
-        public void JoinShouldReturnDefinedValueWhenLeafN1AndNodeN2()
+        [Test]
+        public void JoinShouldReturnDefinedValueWhenLeafN1AndNodeN2() // join(n1,(n2,l2,r2)) = join((n1,0,0),(n2,l2,r2))
         {
             // Arrange
             Event e1 = new Event.Leaf(1);
@@ -657,11 +656,11 @@ namespace Itc4net.Tests
             Event result = e1.Join(e2);
 
             // Assert
-            result.Should().Be(new Event.Node(2,0,1));
+            result.ShouldBe(new Event.Node(2,0,1));
         }
 
-        [Test(Description = "join((n1,l1,r1),n2) = join((n1,l1,r1),(n2,0,0))")]
-        public void JoinShouldReturnDefinedValueWhenNodeN1AndLeafN2()
+        [Test]
+        public void JoinShouldReturnDefinedValueWhenNodeN1AndLeafN2() // join((n1,l1,r1),n2) = join((n1,l1,r1),(n2,0,0))
         {
             // Arrange
             Event e1 = new Event.Node(2, 0, 1);
@@ -671,11 +670,11 @@ namespace Itc4net.Tests
             Event result = e1.Join(e2);
 
             // Assert
-            result.Should().Be(new Event.Node(2, 0, 1));
+            result.ShouldBe(new Event.Node(2, 0, 1));
         }
 
-        [Test(Description = "join((n1,l1,r1),(n2,l2,r2)) = join((n2,l2,r2),(n1,l1,r1)), if n1>n2")]
-        public void JoinShouldReturnDefinedValueWhenNodeN1AndNodeN2WithN1GreaterThanN2()
+        [Test]
+        public void JoinShouldReturnDefinedValueWhenNodeN1AndNodeN2WithN1GreaterThanN2() // join((n1,l1,r1),(n2,l2,r2)) = join((n2,l2,r2),(n1,l1,r1)), if n1>n2
         {
             // Arrange
             Event e1 = new Event.Node(2, 0, 1);
@@ -685,11 +684,11 @@ namespace Itc4net.Tests
             Event result = e1.Join(e2);
 
             // Assert
-            result.Should().Be(new Event.Node(2, 0, 1));
+            result.ShouldBe(new Event.Node(2, 0, 1));
         }
 
-        [Test(Description = "join((n1,l1,r1),(n2,l2,r2)) = norm((n1,join(l1,l2↑n2-n1),join(r1,r2↑n2-n1)))")]
-        public void JoinShouldReturnDefinedValueWhenNodeN1AndNodeN2WithN1LessThanN2()
+        [Test]
+        public void JoinShouldReturnDefinedValueWhenNodeN1AndNodeN2WithN1LessThanN2() // join((n1,l1,r1),(n2,l2,r2)) = norm((n1,join(l1,l2↑n2-n1),join(r1,r2↑n2-n1)))
         {
             // Arrange
             Event e1 = new Event.Node(1, 2, 0);
@@ -699,7 +698,7 @@ namespace Itc4net.Tests
             Event result = e1.Join(e2);
 
             // Assert
-            result.Should().Be(new Event.Node(4, 0, 2));
+            result.ShouldBe(new Event.Node(4, 0, 2));
         }
 
         [Test]
@@ -708,7 +707,7 @@ namespace Itc4net.Tests
             Event e1 = new Event.Leaf(4);
             Event e2 = 4;
 
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
 
         [Test]
@@ -717,7 +716,7 @@ namespace Itc4net.Tests
             Event e1 = new Event.Node(0, new Event.Node(1, 1, 0), 0);
             Event e2 = (0, (1, 1, 0), 0); // combo of C#7 tuples and implicit conversion operator is wow!
 
-            e1.Equals(e2).Should().BeTrue();
+            e1.Equals(e2).ShouldBeTrue();
         }
     }
 }

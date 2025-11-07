@@ -1,11 +1,9 @@
 ﻿using System;
-using FluentAssertions;
 using Itc4net.Text;
-using NUnit.Framework;
+using Shouldly;
 
 namespace Itc4net.Tests.Text
 {
-    [TestFixture]
     public class ParserTests
     {
         [Test]
@@ -13,7 +11,7 @@ namespace Itc4net.Tests.Text
         {
             Stamp s = Stamp.Parse("(1,0)");
 
-            s.Should().Be(new Stamp(1, 0));
+            s.ShouldBe(new Stamp(1, 0));
         }
 
         [Test]
@@ -21,7 +19,7 @@ namespace Itc4net.Tests.Text
         {
             Stamp s = Stamp.Parse("((1,0),0)");
 
-            s.Should().Be(new Stamp(new Id.Node(1, 0), 0));
+            s.ShouldBe(new Stamp(new Id.Node(1, 0), 0));
         }
 
         [Test]
@@ -29,7 +27,7 @@ namespace Itc4net.Tests.Text
         {
             Stamp s = Stamp.Parse("((1,(1,0)),0)");
 
-            s.Should().Be(new Stamp(new Id.Node(1, new Id.Node(1, 0)), 0));
+            s.ShouldBe(new Stamp(new Id.Node(1, new Id.Node(1, 0)), 0));
         }
 
         [Test]
@@ -37,7 +35,7 @@ namespace Itc4net.Tests.Text
         {
             Stamp s = Stamp.Parse("(1,(1,0,0))");
 
-            s.Should().Be(new Stamp(1, new Event.Node(1, 0, 0)));
+            s.ShouldBe(new Stamp(1, new Event.Node(1, 0, 0)));
         }
 
         [Test]
@@ -45,7 +43,7 @@ namespace Itc4net.Tests.Text
         {
             Stamp s = Stamp.Parse("(1,(1,0,(0,2,0)))");
 
-            s.Should().Be(new Stamp(1, new Event.Node(1, 0, new Event.Node(0, 2, 0))));
+            s.ShouldBe(new Stamp(1, new Event.Node(1, 0, new Event.Node(0, 2, 0))));
         }
 
         [Test]
@@ -53,7 +51,7 @@ namespace Itc4net.Tests.Text
         {
             Action act = () => Stamp.Parse(null);
 
-            act.Should().Throw<ArgumentNullException>();
+            act.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -61,10 +59,11 @@ namespace Itc4net.Tests.Text
         {
             Action act = () => Stamp.Parse(string.Empty);
 
-            act.Should().Throw<ParserException>().Where(
-                e => e.Position == 1
-                && e.Expecting == TokenKind.LParen
-                && e.Found == TokenKind.EndOfText);
+            var ex = act.ShouldThrow<ParserException>();
+
+            ex.Position.ShouldBe(1);
+            ex.Expecting.ShouldBe(TokenKind.LParen);
+            ex.Found.ShouldBe(TokenKind.EndOfText);
         }
 
         [Test]
@@ -75,10 +74,11 @@ namespace Itc4net.Tests.Text
             //                              ↓
             Action act = () => Stamp.Parse("1,(1,0,(0,2,0)))");
 
-            act.Should().Throw<ParserException>().Where(
-                e => e.Position == 1
-                && e.Expecting == TokenKind.LParen
-                && e.Found == TokenKind.IntegerLiteral);
+            var ex = act.ShouldThrow<ParserException>();
+
+            ex.Position.ShouldBe(1);
+            ex.Expecting.ShouldBe(TokenKind.LParen);
+            ex.Found.ShouldBe(TokenKind.IntegerLiteral);
         }
 
         [Test]
@@ -89,10 +89,11 @@ namespace Itc4net.Tests.Text
             //                                  ↓
             Action act = () => Stamp.Parse("(1,0");
 
-            act.Should().Throw<ParserException>().Where(
-                e => e.Position == 5
-                && e.Expecting == TokenKind.RParen
-                && e.Found == TokenKind.EndOfText);
+            var ex = act.ShouldThrow<ParserException>();
+
+            ex.Position.ShouldBe(5);
+            ex.Expecting.ShouldBe(TokenKind.RParen);    
+            ex.Found.ShouldBe(TokenKind.EndOfText);
         }
 
         [Test]
@@ -103,10 +104,11 @@ namespace Itc4net.Tests.Text
             //                                ↓
             Action act = () => Stamp.Parse("(1(1,0,(0,2,0)))");
 
-            act.Should().Throw<ParserException>().Where(
-                e => e.Position == 3
-                && e.Expecting == TokenKind.Comma
-                && e.Found == TokenKind.LParen);
+            var ex = act.ShouldThrow<ParserException>();
+
+            ex.Position.ShouldBe(3);
+            ex.Expecting.ShouldBe(TokenKind.Comma);
+            ex.Found.ShouldBe(TokenKind.LParen);
         }
 
         [Test]
@@ -121,10 +123,11 @@ namespace Itc4net.Tests.Text
             //                                   because of the missing '(', so it expects an RParen to
             //                                   end the stamp
 
-            act.Should().Throw<ParserException>().Where(
-                e => e.Position == 5
-                && e.Expecting == TokenKind.RParen
-                && e.Found == TokenKind.Comma);
+            var ex = act.ShouldThrow<ParserException>();
+
+            ex.Position.ShouldBe(5);
+            ex.Expecting.ShouldBe(TokenKind.RParen);
+            ex.Found.ShouldBe(TokenKind.Comma);
 
             // Future enhancement?
             //
@@ -143,7 +146,7 @@ namespace Itc4net.Tests.Text
             //                              12345678901234567890
             //                                 ↓
             Action act = () => Stamp.Parse("(1,1,0,1))");
-            act.Should().Throw<ParserException>().Where(
+            act.ShouldThrow<ParserException>().Where(
                 e => e.Position == 4
                 && e.Expecting == TokenKind.LParen
                 && e.Found == TokenKind.IntegerLiteral);
